@@ -17,7 +17,7 @@ RUN dotnet tool install --global dotnet-ef
 
 # Install MongoDB
 RUN apt-get update && \
-    apt-get install -y gnupg curl && \
+    apt-get install -y ca-certificates gnupg curl && \
     curl -fsSL https://pgp.mongodb.com/server-7.0.asc | gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor && \
     echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
 
@@ -25,6 +25,13 @@ RUN apt-get update && \
 RUN apt-get update && \
     apt-get install -y python3 python3-pip && \
     pip3 install --upgrade pip
+
+# Install Node.js
+RUN mkdir -p /etc/apt/keyrings && \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && \
+    apt-get install nodejs -y
 
 # Create DB directory for MongoDB
 RUN mkdir -p /data/db
