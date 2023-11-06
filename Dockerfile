@@ -11,9 +11,11 @@ RUN apt-get update && \
     wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh && \
     chmod +x ./dotnet-install.sh && \
     ./dotnet-install.sh --version latest && \
-    apt-get install -y dotnet-sdk-6.0
+    apt-get install -y dotnet-sdk-6.0 git
 
 RUN dotnet tool install --global dotnet-ef
+
+ENV PATH="/root/.dotnet/tools:${PATH}"
 
 # Install MongoDB
 RUN apt-get update && \

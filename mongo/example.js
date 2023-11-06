@@ -12,7 +12,7 @@ const client = new MongoClient(url);
 
     console.log("Connected successfully to server");
 
-    const coll = client.db('db').collection('test');
+    const coll = client.db('test').collection('data');
 
     // Find documents where the street address contains "Main St"
     let docs = await coll.find({'address.street': /Main St/}).toArray();
